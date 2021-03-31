@@ -1,23 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import flip from "./flip.svg";
+
 import './App.css';
 
 function App() {
+
+   const [coinState, setCoinState] = useState("")
+   const [isFlipping, setFlipping] = useState(false);
+
+
+  const handleCoinFlip = () => {
+     const number = Math.round(Math.random()); 
+     setCoinState("");
+     setFlipping(true);
+     if (number % 2 == 0) {
+        setTimeout(() => { 
+          setCoinState("HEADS")
+          setFlipping(false);
+        }
+        , 300);  
+     }
+     else {
+      setTimeout(() => {
+        setCoinState("TAILS");
+        setFlipping(false);
+      }, 300);       }
+    
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {isFlipping ? (
+          <img
+            src={flip}
+            className={`flip-coin  ${isFlipping ? "" : "hide"}`}
+            alt="coin flipping"
+          />
+        ) : (
+          <img
+            src={flip}
+            alt="coin"
+            className={`coin  ${isFlipping ? "" : "hide"}`}
+          />
+        )}
+        <button onClick={handleCoinFlip} className="btn" disabled={isFlipping}>
+          Flip the coin
+        </button>
+        {coinState && <p>{coinState}</p>}
       </header>
     </div>
   );
